@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Profil Rachelle</title>
+  <style>
+    :root{
+      --bg:#0f1020;
+      --glass: rgba(255,255,255,0.06);
+      --accent:#ff6fb5; /* soft pink accent */
+      --accent2:#7af0ff; /* cyan highlight */
+      --muted:rgba(255,255,255,0.65);
+      --card-radius:18px;
+      --glass-2:rgba(255,255,255,0.03);
+      --shadow: 0 10px 30px rgba(2,6,23,0.7);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    /* Page layout */
+    html,body{height:100%;margin:0;background:radial-gradient(800px 400px at 10% 10%, rgba(122,240,255,0.06), transparent),
+      linear-gradient(180deg,#071021 0%, var(--bg) 60%);color:white}
+    .wrap{
+      min-height:100vh;display:grid;place-items:center;padding:36px;
+    }
+
+    /* Card */
+    .profile-card{
+      width:min(980px,94%);
+      border-radius:22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      box-shadow:var(--shadow);
+      display:grid;grid-template-columns: 380px 1fr;gap:28px;padding:28px;align-items:center;backdrop-filter: blur(8px) saturate(120%);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    /* Left column: photo + quick stats */
+    .left{
+      display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center;padding:14px;
+    }
+    .avatar{
+      width:280px;height:280px;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);box-shadow:0 6px 24px rgba(0,0,0,0.6);
+      position:relative;
+    }
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1);transition:transform .8s cubic-bezier(.2,.9,.3,1)}
+    .avatar:hover img{transform:scale(1.04) rotate(-0.5deg)}
+
+    .glow-ring{
+      position:absolute;inset:auto -8px -8px auto;right:-22px;bottom:-22px;width:110px;height:110px;border-radius:50%;filter:blur(22px);z-index:0;background:radial-gradient(circle at 30% 30%, var(--accent), transparent 35%), radial-gradient(circle at 70% 70%, var(--accent2), transparent 40%);
+      opacity:0.75;transform:translateZ(0);
+    }
+
+    .name{font-size:1.36rem;font-weight:700;letter-spacing:0.4px}
+    .role{font-size:0.95rem;color:var(--muted);margin-top:4px}
+
+    .quick-stats{display:flex;gap:10px;margin-top:8px}
+    .stat{background:var(--glass);padding:8px 12px;border-radius:12px;font-size:0.9rem;color:var(--muted);border:1px solid rgba(255,255,255,0.03)}
+
+    /* Right column: interactive panel */
+    .right{padding-right:10px}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+    .control-btn{
+      --pad:10px 14px;cursor:pointer;border-radius:12px;padding:var(--pad);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.045);font-weight:600;letter-spacing:0.2px;transition:all .18s;display:inline-flex;gap:10px;align-items:center
+    }
+    .control-btn:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,0.45)}
+    .control-btn.active{background:linear-gradient(90deg,var(--accent)33%,var(--accent2)100%);color:#081019;border:1px solid rgba(255,255,255,0.06);}
+
+    /* Content area */
+    .panel{
+      min-height:220px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.03);position:relative;overflow:hidden
+    }
+
+    .panel .title{font-weight:700;margin-bottom:8px}
+    .panel p{color:var(--muted);line-height:1.5}
+
+    /* Animated particles */
+    .particle{position:absolute;border-radius:50%;opacity:0.12;filter:blur(6px);}
+    .p1{width:220px;height:220px;right:-60px;top:-60px;background:radial-gradient(circle at 30% 30%,var(--accent),transparent 35%)}
+    .p2{width:140px;height:140px;left:-40px;bottom:-40px;background:radial-gradient(circle at 60% 60%,var(--accent2),transparent 35%);opacity:0.08}
+
+    /* details list */
+    .info-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+    .info-item{background:var(--glass-2);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);font-size:0.92rem;color:var(--muted)}
+
+    /* Aesthetic footer */
+    .footer-note{margin-top:18px;font-size:0.86rem;color:rgba(255,255,255,0.55)}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .profile-card{grid-template-columns:1fr;align-items:start}
+      .avatar{width:220px;height:220px}
+    }
+
+    /* Small flourish: typing micro animation for 'klik tombol' */
+    .hint{font-size:0.9rem;color:rgba(255,255,255,0.6);display:flex;gap:8px;align-items:center}
+    .cursor{display:inline-block;width:10px;height:16px;background:linear-gradient(90deg,#fff, #ddd);margin-left:6px;border-radius:2px;opacity:0.85;animation:blink 1s steps(2,end) infinite}
+    @keyframes blink{50%{opacity:0}} 
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="profile-card" aria-label="Kartu profil futuristik">
+      <div class="left">
+        <div class="avatar" id="avatar">
+          <!-- Ganti src dengan foto-mu -->
+          <img id="avatar-img" src="rahma.jpeg" alt="Foto Rahma" />
+          <div class="glow-ring"></div>
+        </div>
+        <div>
+          <div class="name" id="fullName">Rachelle Morozova</div>
+          <div class="role" id="tagline">Ethereal, bitch and avant garde</div>
+        </div>
+
+        <div class="quick-stats" aria-hidden>
+          <div class="stat">✨ creative as always</div>
+          <div class="stat">🌐 explorer</div>
+          <div class="stat">🎵 Music with idgaf attitude</div>
+        </div>
+        <div class="hint">the capillaries in my eyes are bursting, if our love died, would that be the worst thing? for somebody i thought was my saviour. you sure make me do a whole lot of labour<span class="cursor"></span></div>
+      </div>
+
+      <div class="right">
+        <div class="controls" role="tablist" aria-label="Kontrol profil">
+          <button class="control-btn active" data-panel="about">Tentang</button>
+          <button class="control-btn" data-panel="identitas">Identitas</button>
+          <button class="control-btn" data-panel="kesukaan">Kesukaan</button>
+          <button class="control-btn" data-panel="kontak">Kontak</button>
+          <button class="control-btn" data-panel="skill">Skill</button>
+        </div>
+
+        <div class="panel" id="panel-root">
+          <!-- Particle decorations -->
+          <div class="particle p1" aria-hidden></div>
+          <div class="particle p2" aria-hidden></div>
+
+          <!-- Panels (hidden/shown via JS) -->
+          <div class="panel-content" data-name="about">
+            <div class="title">Halo! Aku <span id="headline">Rasel</span></div>
+            <p id="about-text">Selamat datang! Aku suka membuat hal-hal yang estetik dan fungsional. Di sini ada beberapa informasi singkat tentang aku. btw klik tombol "Identitas" atau "Kesukaan" untuk detail lebih lengkap.</p>
+            <div class="footer-note">ДОБРО ПОЖАЛОВАТЬ!!!!!!</div>
+          </div>
+
+          <div class="panel-content" data-name="identitas" style="display:none">
+            <div class="title">Identitas</div>
+            <div class="info-list">
+              <div class="info-item"><strong>Nama:</strong> <span id="ident-nama">Rachelle</span></div>
+              <div class="info-item"><strong>Usia:</strong> <span id="ident-usia">16 asf</span></div>
+              <div class="info-item"><strong>Kota:</strong> <span id="ident-kota">Moscow</span></div>
+              <div class="info-item"><strong>Pekerjaan:</strong> <span id="ident-job">Pelajar</span></div>
+            </div>
+          </div>
+
+          <div class="panel-content" data-name="kesukaan" style="display:none">
+            <div class="title">Kesukaan</div>
+            <p id="likes">Musik synthwave, desain antarmuka, kopi sore hari, dan percakapan yang dalem no basa basi. ILOVE RUSIA, AAAAAAAAAAAAAAAAAAAAAAA я люблю Россию</p>
+            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+              <button class="control-btn" id="edit-likes">Edit Kesukaan</button>
+              <button class="control-btn" id="reset-likes">Reset</button>
+            </div>
+          </div>
+
+          <div class="panel-content" data-name="kontak" style="display:none">
+            <div class="title">Kontak</div>
+            <div class="info-list">
+              <div class="info-item"><strong>Email</strong><br><span id="contact-email">ranselgasukanasgor@gmail.com</span></div>
+              <div class="info-item"><strong>Telepon</strong><br><span id="contact-phone">0889-8385-8921</span></div>
+              <div class="info-item" style="grid-column:span 2;"><strong>Alamat</strong><br><span id="contact-addr">isekai</span></div>
+            </div>
+          </div>
+
+          <div class="panel-content" data-name="skill" style="display:none">
+            <div class="title">Skill</div>
+            <p>Berikut skill utama:</p>
+            <div class="info-list" style="margin-top:10px">
+              <div class="info-item">Multilingual (english, russia, german, japan)</div>
+              <div class="info-item">Artifficial inteligence</div>
+              <div class="info-item">Sense of humor & honestly blak-blakan</div>
+              <div class="info-item">Adaptif secara digital</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Interactive behaviour — mudah disesuaikan
+    (function(){
+      const buttons = document.querySelectorAll('.control-btn');
+      const panels = document.querySelectorAll('.panel-content');
+      const panelRoot = document.getElementById('panel-root');
+
+      function showPanel(name){
+        panels.forEach(p=>{p.style.display = (p.dataset.name===name)?'block':'none'});
+      }
+
+      buttons.forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          buttons.forEach(b=>b.classList.remove('active'));
+          btn.classList.add('active');
+          const target = btn.dataset.panel;
+          showPanel(target);
+        })
+      })
+
+      // small editing utilities
+      document.getElementById('edit-likes').addEventListener('click', ()=>{
+        const current = document.getElementById('likes').textContent;
+        const newVal = prompt('Edit daftar kesukaan (pisah dengan koma):', current);
+        if(newVal!==null) document.getElementById('likes').textContent = newVal;
+      });
+
+      document.getElementById('reset-likes').addEventListener('click', ()=>{
+        document.getElementById('likes').textContent = 'Musik synthwave, desain antarmuka, kopi sore hari, dan percakapan yang dalem.';
+      });
+
+      // Allow easy replacement of avatar by drag & drop
+      const avatarImg = document.getElementById('avatar-img');
+      const avatar = document.getElementById('avatar');
+
+      avatar.addEventListener('dragover', e=>{e.preventDefault(); avatar.style.transform='scale(1.01)'});
+      avatar.addEventListener('dragleave', e=>{avatar.style.transform='none'});
+      avatar.addEventListener('drop', e=>{
+        e.preventDefault(); avatar.style.transform='none';
+        const file = e.dataTransfer.files && e.dataTransfer.files[0];
+        if(file && file.type.startsWith('image/')){
+          const reader = new FileReader();
+          reader.onload = function(ev){ avatarImg.src = ev.target.result };
+          reader.readAsDataURL(file);
+        } else alert('Seret file gambar yang valid ke area foto.');
+      });
+
+      // Keyboard shortcuts (1..5) untuk panel
+      window.addEventListener('keydown', e=>{
+        if(e.key>='1' && e.key<='5'){
+          const idx = parseInt(e.key,10)-1;
+          const btn = buttons[idx];
+          if(btn) btn.click();
+        }
+      })
+
+      // Small dynamic headline replacement example
+      const nameEl = document.getElementById('fullName');
+      const headline = document.getElementById('headline');
+      nameEl.addEventListener('dblclick', ()=>{
+        const n = prompt('Ganti nama:', nameEl.textContent);
+        if(n!==null){ nameEl.textContent = n; headline.textContent = n; document.getElementById('ident-nama').textContent = n }
+      });
+
+      // initial state
+      showPanel('about');
+
+    })();
+  </script>
+
+</body>
+</html>
